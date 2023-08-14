@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Audio;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class AudiosController extends Controller
 {
@@ -60,24 +61,42 @@ class AudiosController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Audio $audio)
+    public function edit($id)
     {
-        //
+        $audio =  Audio::find($id);
+        return view('audios.update', [
+            'audio' => $audio
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Audio $audio)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'audio' => 'required'
+        ]);
+
+        $audio = $request->file('audio')->getClientOriginalName();
+        $path = $request->file('audio')->storeAs('public/audios', $audio);
+
+        DB::table('audio')
+            ->where('id', $id)
+            ->update([
+                'audio' => $audio
+            ]);
+
+        return redirect('/audios')->with('status', 'update audio successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Audio $audio)
+    public function destroy($id)
     {
-        //
+        $audio = Audio::find($id);
+        $audio->delete();
+        return redirect('/audios')->with('status', 'delete audio successfully');
     }
 }
