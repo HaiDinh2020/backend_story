@@ -18,6 +18,7 @@
 </head>
 <body>
 @include('layouts.header')
+@yield('status')
 @yield('content')
 @include('layouts.footer')
 </body>

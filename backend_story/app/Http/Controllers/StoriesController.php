@@ -69,7 +69,7 @@ class StoriesController extends Controller
     public function edit($id)
     {
         $story = Story::find($id);
-        return view('stories.update', ['story' => $story]);
+        return view('pages.update', ['story' => $story]);
     }
 
     /**
@@ -89,7 +89,7 @@ class StoriesController extends Controller
                 'author' => $request->author
             ]);
 
-        return redirect('/stories')->with('status', 'update successfully');
+        return redirect('/pages')->with('status', 'update successfully');
     }
 
     /**
@@ -99,6 +99,6 @@ class StoriesController extends Controller
     {
         $story = Story::find($id);
         $story->delete();
-        return redirect('/stories')->with('status', 'delete successfully');
+        return redirect('/pages')->with('status', 'delete successfully');
     }
 }

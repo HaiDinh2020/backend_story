@@ -5,13 +5,11 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class Page extends Model
+class Audio extends Model
 {
     use HasFactory;
     public $timestamps = false;
     protected $fillable = [
-        'id',
-        'story_id',
-        'background',
+        'audio'
     ];
 }

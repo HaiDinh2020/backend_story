@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\PagesController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StoriesController;
 /*
@@ -25,4 +26,9 @@ Route::put('/stories/update/{id}', [StoriesController::class, 'update']);
 Route::get('/stories/delete/{id}', [StoriesController::class, 'destroy']);
 
 
-//Route::resource('pages', StoriesController::class);
+Route::get('/pages', [PagesController::class, 'index']);
+Route::get('/pages/create', [PagesController::class, 'create']);
+Route::post('/pages',[PagesController::class, 'store']);
+Route::get('/pages/edit/{id}', [PagesController::class, 'edit']);
+Route::put('/pages/update/{id}', [PagesController::class, 'update']);
+Route::get('/pages/delete/{id}', [PagesController::class, 'destroy']);
