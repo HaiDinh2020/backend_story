@@ -15,9 +15,10 @@ class TextsController extends Controller
     public function index()
     {
         $texts = Text::all();
-        return view('texts.index', [
-            'texts' => $texts
-        ]);
+        return $texts;
+//        return view('texts.index', [
+//            'texts' => $texts
+//        ]);
     }
 
     /**
@@ -40,7 +41,7 @@ class TextsController extends Controller
         $text = Text::create([
             'text' => $request->text
         ]);
-
+//        return response()->json('add success');
         if ($text) {
             return redirect('/texts')->with('status', 'create new text successfully');
         } else {

@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\AudiosController;
 use App\Http\Controllers\PagesController;
+use App\Http\Controllers\TextConfigsController;
 use App\Http\Controllers\TextsController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StoriesController;
@@ -48,3 +49,10 @@ Route::post('/audios',[AudiosController::class, 'store']);
 Route::get('/audios/edit/{id}', [AudiosController::class, 'edit']);
 Route::put('/audios/update/{id}', [AudiosController::class, 'update']);
 Route::get('/audios/delete/{id}', [AudiosController::class, 'destroy']);
+
+Route::get('/textConfigs', [TextConfigsController::class, 'index']);
+Route::get('/textConfigs/create', [TextConfigsController::class, 'create']);
+Route::post('/textConfigs',[TextConfigsController::class, 'store']);
+Route::get('/textConfigs/edit/{id}', [TextConfigsController::class, 'edit']);
+Route::put('/textConfigs/update/{id}', [TextConfigsController::class, 'update']);
+Route::get('/textConfigs/delete/{id}', [TextConfigsController::class, 'destroy']);

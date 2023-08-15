@@ -14,6 +14,8 @@ return new class extends Migration
         Schema::create('audio', function (Blueprint $table) {
             $table->increments('id');
             $table->string('audio');
+            $table->unsignedInteger('text_id');
+            $table->foreign('text_id')->references('id')->on('texts')->onUpdate('cascade')->onDelete('cascade');
         });
     }
 

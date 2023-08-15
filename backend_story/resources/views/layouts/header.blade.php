@@ -13,12 +13,22 @@
         </li>
         <li class="nav-item">
             <a class="nav-link {{request() -> is('porfolio') ? 'active' : ''}} "
-               href="porfolio">Porfolio
+               href="audios">Audio
             </a>
         </li>
         <li class="nav-item">
             <a class="nav-link {{request() -> is('contact') ? 'active' : ''}} "
-               href="contact">Contact
+               href="texts">Text
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {{request() -> is('contact') ? 'active' : ''}} "
+               href="textConfigs">Text_config
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link {{request() -> is('contact') ? 'active' : ''}} "
+               href="Touch">Touch
             </a>
         </li>
     </ul>

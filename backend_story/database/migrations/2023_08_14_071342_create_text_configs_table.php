@@ -12,6 +12,7 @@ return new class extends Migration
     public function up(): void
     {
         Schema::create('text_configs', function (Blueprint $table) {
+            $table->increments('id');
             $table->unsignedInteger('page_id');
             $table->foreign('page_id')->references('id')->on('pages')->onUpdate('cascade')->onDelete('cascade');
             $table->unsignedInteger('text_id');

@@ -10,6 +10,7 @@ class Audio extends Model
     use HasFactory;
     public $timestamps = false;
     protected $fillable = [
-        'audio'
+        'audio',
+        'text_id'
     ];
 }

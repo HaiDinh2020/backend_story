@@ -34,14 +34,16 @@ class AudiosController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'audio' => 'required'
+            'audio' => 'required',
+            'text_id' => 'required'
         ]);
 
         $audio = $request->file('audio')->getClientOriginalName();
         $path = $request->file('audio')->storeAs('public/audios', $audio);
 
         $newAudio = Audio::create([
-            'audio' => $audio
+            'audio' => $audio,
+            'text_id' => $request->text_id
         ]);
         if($newAudio) {
             return redirect('/audios')->with('status', 'create new audio successfully');
@@ -75,7 +77,8 @@ class AudiosController extends Controller
     public function update(Request $request, $id)
     {
         $request->validate([
-            'audio' => 'required'
+            'audio' => 'required',
+            'text_id' => 'required'
         ]);
 
         $audio = $request->file('audio')->getClientOriginalName();
@@ -84,7 +87,8 @@ class AudiosController extends Controller
         DB::table('audio')
             ->where('id', $id)
             ->update([
-                'audio' => $audio
+                'audio' => $audio,
+                'text_id' => $request->text_id
             ]);
 
         return redirect('/audios')->with('status', 'update audio successfully');

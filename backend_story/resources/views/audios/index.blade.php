@@ -14,6 +14,7 @@
         <thead>
         <tr>
             <th scope="col">#</th>
+            <th scope="col">Text_id</th>
             <th scope="col">Text</th>
             <th scope="col">Audio</th>
             <th scope="col">Handle</th>
@@ -23,6 +24,7 @@
         @foreach($audios as $audios)
             <tr>
                 <th scope="row">{{$audios->id}}</th>
+                <th scope="row">{{$audios->text_id}}</th>
                 <td>{{$audios->audio}}</td>
                 <td>
                     <audio controls >

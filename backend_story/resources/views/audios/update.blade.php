@@ -7,6 +7,14 @@
         @csrf
         @method('PUT')
         <div class="mb-3">
+            <label for="text_id" class="form-label">Text Id</label>
+            <input type="number"
+                   class="form-control"
+                   id="text_id"
+                   name="text_id"
+                   value="{{$audio->text_id}}">
+        </div>
+        <div class="mb-3">
             <label for="text" class="form-label">old audio</label>
             <br>
             <audio controls >

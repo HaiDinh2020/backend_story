@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Text_config;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class TextConfigsController extends Controller
 {
@@ -13,7 +14,8 @@ class TextConfigsController extends Controller
      */
     public function index()
     {
-        return view('textConfigs.index');
+        $textConfigs = Text_config::all();
+        return view('textConfigs.index', ['textConfigs' => $textConfigs]);
     }
 
     /**
@@ -21,7 +23,7 @@ class TextConfigsController extends Controller
      */
     public function create()
     {
-        //
+        return view('textConfigs.create');
     }
 
     /**
@@ -29,7 +31,25 @@ class TextConfigsController extends Controller
      */
     public function store(Request $request)
     {
-        //
+
+        $request->validate([
+            'page_id' => 'required',
+            'text_id' => 'required',
+            'position' => 'required'
+        ]);
+
+        $newTextConfig = Text_config::create([
+           'page_id' => $request->page_id,
+           'text_id' => $request->text_id,
+           'position' => $request->position
+        ]);
+        if($newTextConfig) {
+//            return "create success";
+            return redirect('/textConfigs')->with('status', 'create new text config successfully');
+        } else {
+//            return "create error";
+            return redirect('/textConfigs')->with('status', 'create have error');
+        }
     }
 
     /**
@@ -43,24 +63,43 @@ class TextConfigsController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Text_config $text_config)
+    public function edit($id)
     {
-        //
+        $textConfig = Text_config::find($id);
+        return view('textConfigs.update', [
+            'textConfig' => $textConfig
+        ] );
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Text_config $text_config)
+    public function update(Request $request, $id)
     {
-        //
+        $request->validate([
+            'page_id' => 'required',
+            'text_id' => 'required',
+            'position' => 'required'
+        ]);
+
+        DB::table('text_configs')
+            ->where('id', $id)
+            ->update([
+                'page_id' => $request->page_id,
+                'text_id' => $request->text_id,
+                'position' => $request->position
+            ]);
+
+        return redirect('/textConfigs')->with('status', 'update text config successfully');
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Text_config $text_config)
+    public function destroy($id)
     {
-        //
+        $textConfig = Text_config::find($id);
+        $textConfig->delete();
+        return redirect('/textConfigs')->with('status', 'delete text config successfully');
     }
 }
