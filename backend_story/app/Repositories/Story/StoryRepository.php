@@ -29,14 +29,14 @@ class StoryRepository implements StoryRepositoryInterface
         return $newStory;
     }
 
-    public function update(Request $request)
+    public function update(Request $request, $id)
     {
         $thumbnail = $request->file('storyThumbnail')->getClientOriginalName();
         $path = $request->file('storyThumbnail')->storeAs('public/thumbnails', $thumbnail);
 
 
         DB::table('stories')
-            ->where('id', $request->id)
+            ->where('id', $id)
             ->update([
                 'name' => $request->name,
                 'thumbnail' => $thumbnail,
