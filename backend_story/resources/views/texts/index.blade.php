@@ -21,7 +21,7 @@
         <tbody>
         @foreach($texts as $texts)
             <tr>
-                <th scope="row">{{$texts->id}}</th>
+                <td>{{$texts->id}}</td>
                 <td>{{$texts->text}}</td>
                 <td>
                     <a href="/texts/edit/{{$texts->id}}"><button class="btn btn-primary">Edit</button> </a>

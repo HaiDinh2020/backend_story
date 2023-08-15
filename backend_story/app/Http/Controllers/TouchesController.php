@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Touch;
 use App\Http\Controllers\Controller;
+use App\Repositories\Touch\TouchRepositoryInterface;
 use Illuminate\Http\Request;
 
 class TouchesController extends Controller
@@ -11,9 +12,18 @@ class TouchesController extends Controller
     /**
      * Display a listing of the resource.
      */
+    private $touchRepository;
+    public function __construct(TouchRepositoryInterface $touchRepository)
+    {
+        $this->touchRepository = $touchRepository;
+    }
+
     public function index()
     {
-        //
+        $touches = $this->touchRepository->all();
+        return view('touches.index', [
+            'touches'=> $touches
+        ]);
     }
 
     /**
@@ -21,7 +31,7 @@ class TouchesController extends Controller
      */
     public function create()
     {
-        //
+        return view('touches.create');
     }
 
     /**
@@ -29,7 +39,12 @@ class TouchesController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $newTouch = $this->touchRepository->create($request);
+        if ($newTouch) {
+            return redirect('/touches')->with('status', 'create new touch successfully');
+        } else {
+            return redirect('/touches')->with('status', 'create new touch have error');
+        }
     }
 
     /**
@@ -43,24 +58,31 @@ class TouchesController extends Controller
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Touch $touch)
+    public function edit($id)
     {
-        //
+        $touch = $this->touchRepository->findTouchConfigById($id);
+        return view('touches.update', ['touch' => $touch]);
     }
 
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request, Touch $touch)
+    public function update(Request $request, $id)
     {
-        //
+        //validate
+        $isSuccess = $this->touchRepository->update($request, $id);
+        if ($isSuccess) {
+            return redirect('/touches')->with('status', 'update touches successfully');
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy(Touch $touch)
+    public function destroy($id)
     {
-        //
+        $touch = $this->touchRepository->findTouchConfigById($id);
+        $touch->delete();
+        return redirect('/touches')->with('status', 'delete touch successfully');
     }
 }

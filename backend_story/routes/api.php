@@ -17,3 +17,6 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+
+//Route::get('touches', [\App\Http\Controllers\TouchesController::class, 'index']);
+//Route::post('touches', [\App\Http\Controllers\TouchesController::class, 'store']);

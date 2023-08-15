@@ -4,6 +4,7 @@ use App\Http\Controllers\AudiosController;
 use App\Http\Controllers\PagesController;
 use App\Http\Controllers\TextConfigsController;
 use App\Http\Controllers\TextsController;
+use App\Http\Controllers\TouchesController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\StoriesController;
 /*
@@ -56,3 +57,10 @@ Route::post('/textConfigs',[TextConfigsController::class, 'store']);
 Route::get('/textConfigs/edit/{id}', [TextConfigsController::class, 'edit']);
 Route::put('/textConfigs/update/{id}', [TextConfigsController::class, 'update']);
 Route::get('/textConfigs/delete/{id}', [TextConfigsController::class, 'destroy']);
+
+Route::get('/touches', [TouchesController::class, 'index']);
+Route::get('/touches/create', [TouchesController::class, 'create']);
+Route::post('/touches',[TouchesController::class, 'store']);
+Route::get('/touches/edit/{id}', [TouchesController::class, 'edit']);
+Route::put('/touches/update/{id}', [TouchesController::class, 'update']);
+Route::get('/touches/delete/{id}', [TouchesController::class, 'destroy']);
