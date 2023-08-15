@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Text_config;
 use App\Http\Controllers\Controller;
+use App\Repositories\TextConfig\TextConfigRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -12,9 +13,15 @@ class TextConfigsController extends Controller
     /**
      * Display a listing of the resource.
      */
+    private $textConfigRepository;
+    public function __construct(TextConfigRepositoryInterface $textConfigRepository)
+    {
+        $this->textConfigRepository = $textConfigRepository;
+    }
+
     public function index()
     {
-        $textConfigs = Text_config::all();
+        $textConfigs = $this->textConfigRepository->all();
         return view('textConfigs.index', ['textConfigs' => $textConfigs]);
     }
 
@@ -38,16 +45,10 @@ class TextConfigsController extends Controller
             'position' => 'required'
         ]);
 
-        $newTextConfig = Text_config::create([
-           'page_id' => $request->page_id,
-           'text_id' => $request->text_id,
-           'position' => $request->position
-        ]);
+        $newTextConfig = $this->textConfigRepository->create($request);
         if($newTextConfig) {
-//            return "create success";
             return redirect('/textConfigs')->with('status', 'create new text config successfully');
         } else {
-//            return "create error";
             return redirect('/textConfigs')->with('status', 'create have error');
         }
     }
@@ -65,7 +66,7 @@ class TextConfigsController extends Controller
      */
     public function edit($id)
     {
-        $textConfig = Text_config::find($id);
+        $textConfig = $this->textConfigRepository->findTextConfigById($id);
         return view('textConfigs.update', [
             'textConfig' => $textConfig
         ] );
@@ -82,13 +83,7 @@ class TextConfigsController extends Controller
             'position' => 'required'
         ]);
 
-        DB::table('text_configs')
-            ->where('id', $id)
-            ->update([
-                'page_id' => $request->page_id,
-                'text_id' => $request->text_id,
-                'position' => $request->position
-            ]);
+        $this->textConfigRepository->update($request, $id);
 
         return redirect('/textConfigs')->with('status', 'update text config successfully');
     }
@@ -98,7 +93,7 @@ class TextConfigsController extends Controller
      */
     public function destroy($id)
     {
-        $textConfig = Text_config::find($id);
+        $textConfig = $this->textConfigRepository->findTextConfigById($id);
         $textConfig->delete();
         return redirect('/textConfigs')->with('status', 'delete text config successfully');
     }

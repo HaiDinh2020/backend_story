@@ -4,21 +4,28 @@ namespace App\Http\Controllers;
 
 use App\Models\Text;
 use App\Http\Controllers\Controller;
+use App\Repositories\Text\TextRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use function Symfony\Component\Translation\t;
 
 class TextsController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    private $textRepository;
+    public function __construct(TextRepositoryInterface $textRepository)
+    {
+        $this->textRepository = $textRepository;
+    }
+
     public function index()
     {
-        $texts = Text::all();
-        return $texts;
-//        return view('texts.index', [
-//            'texts' => $texts
-//        ]);
+        $texts = $this->textRepository->all();
+        return view('texts.index', [
+            'texts' => $texts
+        ]);
     }
 
     /**
@@ -38,9 +45,7 @@ class TextsController extends Controller
            'text' => 'required'
         ]);
 
-        $text = Text::create([
-            'text' => $request->text
-        ]);
+        $text = $this->textRepository->create($request);
 //        return response()->json('add success');
         if ($text) {
             return redirect('/texts')->with('status', 'create new text successfully');
@@ -62,7 +67,7 @@ class TextsController extends Controller
      */
     public function edit($id)
     {
-        $text = Text::find($id);
+        $text = $this->textRepository->findTextById($id);
         return view('texts.update', [
             'text' => $text
         ]);
@@ -77,11 +82,7 @@ class TextsController extends Controller
             'text' => 'required'
         ]);
 
-        DB::table('texts')
-            ->where('id', $id)
-            ->update([
-                'text' => $request->text
-            ]);
+        $this->textRepository->update($request, $id);
 
         return redirect('/texts')->with('status', 'update text successfully');
     }
@@ -91,7 +92,7 @@ class TextsController extends Controller
      */
     public function destroy($id)
     {
-        $text = Text::find($id);
+        $text = $this->textRepository->findTextById($id);
         $text->delete();
         return redirect('/texts')->with('status', 'delete text successfully');
     }

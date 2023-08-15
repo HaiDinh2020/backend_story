@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Story;
 use App\Http\Controllers\Controller;
+use App\Repositories\Story\StoryRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -12,9 +13,15 @@ class StoriesController extends Controller
     /**
      * Display a listing of the resource.
      */
+    private $storyRepository;
+    public function __construct(StoryRepositoryInterface $storyRepository)
+    {
+        $this->storyRepository = $storyRepository;
+    }
+
     public function index()
     {
-        $stories = Story::all();
+        $stories = $this->storyRepository->all();
         return view("stories.index", [
             'stories' => $stories
         ]);
@@ -40,14 +47,7 @@ class StoriesController extends Controller
             'author' => 'required'
         ]);
 
-        $thumbnail = $request->file('storyThumbnail')->getClientOriginalName();
-        $path = $request->file('storyThumbnail')->storeAs('public/thumbnails', $thumbnail);
-
-        $newStory = Story::create([
-            'name' => $request->name,
-            'thumbnail' => $thumbnail,
-            'author' => $request->author
-        ]);
+        $newStory = $this->storyRepository->create($request);
         if($newStory) {
             return redirect('/stories');
         } else {
@@ -68,8 +68,8 @@ class StoriesController extends Controller
      */
     public function edit($id)
     {
-        $story = Story::find($id);
-        return view('pages.update', ['story' => $story]);
+        $story = $this->storyRepository->findStoryById($id);
+        return view('stories.update', ['story' => $story]);
     }
 
     /**
@@ -77,19 +77,8 @@ class StoriesController extends Controller
      */
     public function update(Request $request)
     {
-        $thumbnail = $request->file('storyThumbnail')->getClientOriginalName();
-        $path = $request->file('storyThumbnail')->storeAs('public/thumbnails', $thumbnail);
-
-
-        DB::table('stories')
-            ->where('id', $request->id)
-            ->update([
-                'name' => $request->name,
-                'thumbnail' => $thumbnail,
-                'author' => $request->author
-            ]);
-
-        return redirect('/pages')->with('status', 'update successfully');
+        $this->storyRepository->update($request);
+        return redirect('/stories')->with('status', 'update successfully');
     }
 
     /**
@@ -97,8 +86,8 @@ class StoriesController extends Controller
      */
     public function destroy( $id)
     {
-        $story = Story::find($id);
+        $story = $this->storyRepository->findStoryById($id);
         $story->delete();
-        return redirect('/pages')->with('status', 'delete successfully');
+        return redirect('/stories')->with('status', 'delete successfully');
     }
 }

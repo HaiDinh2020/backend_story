@@ -2,6 +2,8 @@
 
 namespace App\Providers;
 
+use App\Repositories\Story\StoryRepository;
+use App\Repositories\Story\StoryRepositoryInterface;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider
@@ -11,7 +13,9 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        //
+//        $this->app->register(RepositoriesServiceProvider::class);
+//        $this->app->bind(StoryRepositoryInterface::class, StoryRepository::class);
+
     }
 
     /**

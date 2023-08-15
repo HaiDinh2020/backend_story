@@ -2,6 +2,8 @@
 
 namespace App\Repositories\Page;
 
+use Illuminate\Http\Request;
+
 interface PageRepositoryInterface
 {
     public function all();

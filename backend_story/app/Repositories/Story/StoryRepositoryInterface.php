@@ -1,18 +1,16 @@
 <?php
 
 namespace App\Repositories\Story;
+use Illuminate\Http\Request;
 
-use App\Models\Story;
 
-class StoryRepository
+interface StoryRepositoryInterface
 {
-    public function all() {
-        return Story::all();
-    }
+    public function all() ;
 
-    public function findStoryById ($id) {
-        return Story::find($id);
-    }
+    public function findStoryById ($id);
 
+    public function create(Request $request);
 
+    public function update(Request $request);
 }

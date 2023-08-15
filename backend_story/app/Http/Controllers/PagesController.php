@@ -4,17 +4,24 @@ namespace App\Http\Controllers;
 
 use App\Models\Page;
 use App\Http\Controllers\Controller;
+use App\Repositories\Page\PageRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
+use function Symfony\Component\Translation\t;
 
 class PagesController extends Controller
 {
     /**
      * Display a listing of the resource.
      */
+    private $pageRepository;
+    public function __construct(PageRepositoryInterface $pageRepository)
+    {
+        $this->pageRepository = $pageRepository;
+    }
     public function index()
     {
-        $pages = Page::all();
+        $pages = $this->pageRepository->all();
         return view('pages.index', [
             'pages' => $pages
         ]);
@@ -39,13 +46,8 @@ class PagesController extends Controller
             'background' => 'required'
         ]);
 
-        $background = $request->file('background')->getClientOriginalName();
-        $path = $request->file('background')->storeAs('public/backgrounds', $background);
-//        dd(gettype((int)$request->story_id));
-        $newPage = Page::create([
-            'story_id' => (int)$request->story_id,
-            'background' => $background
-        ]);
+
+        $newPage = $this->pageRepository->create($request);
 
         if($newPage) {
             return redirect('/pages')->with('status', 'create new page successfully');
@@ -67,7 +69,7 @@ class PagesController extends Controller
      */
     public function edit($id)
     {
-        $page = Page::find($id);
+        $page = $this->pageRepository->findPageById($id);
         return view('pages.update', ['page' => $page]);
     }
 
@@ -76,16 +78,7 @@ class PagesController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $background = $request->file('background')->getClientOriginalName();
-        $path = $request->file('background')->storeAs('public/backgrounds', $background);
-
-
-        DB::table('pages')
-            ->where('id', $id)
-            ->update([
-                'story_id' => $request->story_id,
-                'background' => $background,
-            ]);
+        $this->pageRepository->update($request, $id);
 
         return redirect('/pages')->with('status', 'update page successfully');
     }
@@ -95,7 +88,7 @@ class PagesController extends Controller
      */
     public function destroy($id)
     {
-        $page = Page::find($id);
+        $page = $this->pageRepository->findPageById($id);
         $page->delete();
         return redirect('/pages')->with('status', 'delete page successfully');
     }

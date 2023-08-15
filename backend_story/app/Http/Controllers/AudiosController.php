@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Audio;
 use App\Http\Controllers\Controller;
+use App\Repositories\Audio\AudioRepositoryInterface;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 
@@ -12,9 +13,16 @@ class AudiosController extends Controller
     /**
      * Display a listing of the resource.
      */
+
+    private $audioRepository;
+    public function __construct(AudioRepositoryInterface $audioRepository)
+    {
+        $this->audioRepository = $audioRepository;
+    }
+
     public function index()
     {
-        $audios = Audio::all();
+        $audios = $this->audioRepository->all();
         return view('audios.index',[
             'audios' => $audios
         ]);
@@ -38,13 +46,8 @@ class AudiosController extends Controller
             'text_id' => 'required'
         ]);
 
-        $audio = $request->file('audio')->getClientOriginalName();
-        $path = $request->file('audio')->storeAs('public/audios', $audio);
+        $newAudio = $this->audioRepository->create($request);
 
-        $newAudio = Audio::create([
-            'audio' => $audio,
-            'text_id' => $request->text_id
-        ]);
         if($newAudio) {
             return redirect('/audios')->with('status', 'create new audio successfully');
         } else {
@@ -65,7 +68,7 @@ class AudiosController extends Controller
      */
     public function edit($id)
     {
-        $audio =  Audio::find($id);
+        $audio =  $this->audioRepository->findAudioById($id);
         return view('audios.update', [
             'audio' => $audio
         ]);
@@ -81,16 +84,7 @@ class AudiosController extends Controller
             'text_id' => 'required'
         ]);
 
-        $audio = $request->file('audio')->getClientOriginalName();
-        $path = $request->file('audio')->storeAs('public/audios', $audio);
-
-        DB::table('audio')
-            ->where('id', $id)
-            ->update([
-                'audio' => $audio,
-                'text_id' => $request->text_id
-            ]);
-
+        $this->audioRepository->update($request, $id);
         return redirect('/audios')->with('status', 'update audio successfully');
     }
 
@@ -99,7 +93,7 @@ class AudiosController extends Controller
      */
     public function destroy($id)
     {
-        $audio = Audio::find($id);
+        $audio = $this->audioRepository->findAudioById($id);
         $audio->delete();
         return redirect('/audios')->with('status', 'delete audio successfully');
     }
