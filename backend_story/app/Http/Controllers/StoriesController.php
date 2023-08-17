@@ -41,6 +41,7 @@ class StoriesController extends Controller
     public function store(Request $request)
     {
 //        dd("this is store");
+//        dd($request);
         $request->validate([
            'name' => 'required',
             // thumbnail validate

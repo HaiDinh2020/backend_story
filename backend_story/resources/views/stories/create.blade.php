@@ -35,7 +35,7 @@
                                    name="author">
                         </div>
 
-                        <button  class="btn btn-primary m-1">Update story</button>
+                        <button  class="btn btn-primary m-1">Create story</button>
                     </form>
                 </div>
             </div>

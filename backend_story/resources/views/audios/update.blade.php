@@ -36,7 +36,7 @@
                                    id="audio"
                                    name="audio">
                         </div>
-                        <button type="submit" class="btn btn-primary">Update</button>
+                        <button type="submit" class="btn btn-primary bg-blue-500">Update</button>
                     </form>
                 </div>
             </div>

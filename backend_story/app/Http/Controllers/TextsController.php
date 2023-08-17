@@ -41,6 +41,8 @@ class TextsController extends Controller
      */
     public function store(Request $request)
     {
+//        return $request;
+//        dd($request);
         $request->validate([
            'text' => 'required'
         ]);
