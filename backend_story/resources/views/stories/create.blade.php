@@ -13,6 +13,15 @@
                     <form action="/stories" method="post" enctype="multipart/form-data">
 
                         @csrf
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <div class="mb-3">
                             <label for="storyName" class="form-label">Name story</label>
                             <input type="text"

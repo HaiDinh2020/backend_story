@@ -27,11 +27,18 @@ class TextConfigsController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'page_id' => 'required',
-            'text_id' => 'required',
+        $rule = [
+            'page_id' => 'required|numeric|min:0',
+            'text_id' => 'required|numeric|min:0',
             'position' => 'required'
-        ]);
+        ];
+        $messenger = [
+            'required' => 'trường :attribute bắt buộc phải nhập',
+            'numeric' => 'trường :attribute phải là số',
+            'min' => 'trường :attribute bắt buộc phải lớn hơn :min '
+        ];
+
+        $request->validate($rule, $messenger);
 
         $newTextConfig = $this->textConfigRepository->create($request);
         if($newTextConfig) {
@@ -46,11 +53,18 @@ class TextConfigsController extends Controller
      */
     public function update(Request $request, string $id)
     {
-        $request->validate([
-            'page_id' => 'required',
-            'text_id' => 'required',
+        $rule = [
+            'page_id' => 'required|numeric|min:0',
+            'text_id' => 'required|numeric|min:0',
             'position' => 'required'
-        ]);
+        ];
+        $messenger = [
+            'required' => 'trường :attribute bắt buộc phải nhập',
+            'numeric' => 'trường :attribute phải là số',
+            'min' => 'trường :attribute bắt buộc phải lớn hơn :min '
+        ];
+
+        $request->validate($rule, $messenger);
 
         $this->textConfigRepository->update($request, $id);
 

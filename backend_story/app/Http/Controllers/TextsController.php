@@ -41,18 +41,22 @@ class TextsController extends Controller
      */
     public function store(Request $request)
     {
-//        return $request;
-//        dd($request);
-        $request->validate([
-           'text' => 'required'
-        ]);
+        $rule = [
+            'text' => 'required'
+        ];
+        $messenger = [
+            'required' => 'trường :attribute bắt buộc phải nhập'
+        ];
+
+        $request->validate($rule, $messenger);
 
         $text = $this->textRepository->create($request);
-//        return response()->json('add success');
+
         if ($text) {
             return redirect('/texts')->with('status', 'create new text successfully');
         } else {
-            return redirect('/texts')->with('status', 'create new text have error');
+            dd("not create");
+//            return redirect('/texts')->with('status', 'create new text have error');
         }
     }
 
@@ -80,9 +84,14 @@ class TextsController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
+        $rule = [
             'text' => 'required'
-        ]);
+        ];
+        $messenger = [
+            'required' => 'trường :attribute bắt buộc phải nhập'
+        ];
+
+        $request->validate($rule, $messenger);
 
         $this->textRepository->update($request, $id);
 

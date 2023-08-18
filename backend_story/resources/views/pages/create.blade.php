@@ -11,6 +11,15 @@
                 <div class="p-6 text-gray-900 dark:text-gray-100">
                     <form action="/pages" method="post" enctype="multipart/form-data">
                         @csrf
+                        @if ($errors->any())
+                            <div class="alert alert-danger">
+                                <ul>
+                                    @foreach ($errors->all() as $error)
+                                        <li>{{ $error }}</li>
+                                    @endforeach
+                                </ul>
+                            </div>
+                        @endif
                         <div class="mb-3">
                             <label for="story_id" class="form-label">ID story</label>
                             <input type="text"

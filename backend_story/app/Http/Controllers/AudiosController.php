@@ -41,11 +41,18 @@ class AudiosController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'audio' => 'required',
-            'text_id' => 'required'
-        ]);
+        $rule = [
+            'text_id' => 'required|numeric|min:0',
+            'audio' => 'required|mimetypes:audio/mpeg',
+        ];
+        $messenger = [
+            'required' => 'trường :attribute bắt buộc phải nhập',
+            'mimetypes' => 'trường :attribute phải là file audio',
+            'numeric' => 'trường :attribute phải là số',
+            'min' => 'trường :attribute bắt buộc phải lớn hơn :min '
+        ];
 
+        $request->validate($rule, $messenger);
         $newAudio = $this->audioRepository->create($request);
 
         if($newAudio) {
@@ -79,10 +86,18 @@ class AudiosController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $request->validate([
-            'audio' => 'required',
-            'text_id' => 'required'
-        ]);
+        $rule = [
+            'text_id' => 'required|numeric|min:0',
+            'audio' => 'required|mimetypes:audio/mpeg',
+        ];
+        $messenger = [
+            'required' => 'trường :attribute bắt buộc phải nhập',
+            'mimetypes' => 'trường :attribute phải là file audio',
+            'numeric' => 'trường :attribute phải là số',
+            'min' => 'trường :attribute bắt buộc phải lớn hơn :min '
+        ];
+
+        $request->validate($rule, $messenger);
 
         $this->audioRepository->update($request, $id);
         return redirect('/audios')->with('status', 'update audio successfully');

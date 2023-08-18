@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 class StoryRepository implements StoryRepositoryInterface
 {
     public function all() {
+
         return Story::all();
     }
 

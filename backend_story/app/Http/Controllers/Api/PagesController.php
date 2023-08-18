@@ -29,10 +29,20 @@ class PagesController extends Controller
      */
     public function store(Request $request)
     {
-        $request->validate([
-            'story_id' => 'required',
-            'background' => 'required'
-        ]);
+        $rule = [
+            'story_id' => 'required|numeric|min:0',
+            'background' => 'required|mimes:jpeg,png|mimetypes:image/jpeg,image/png|max:2024',
+        ];
+        $messenger = [
+            'required' => 'trường :attribute bắt buộc phải nhập',
+            'mimes' => 'trường :attribute phải là file ảnh',
+            'mimetypes' => 'trường :attribute phải là file ảnh',
+            'max' => 'trường :attribute phải là file ảnh bé hơn :max kb',
+            'numeric' => 'trường :attribute phải là số',
+            'min' => 'trường :attribute bắt buộc phải lớn hơn :min '
+        ];
+
+        $request->validate($rule, $messenger);
 
         $newPage = $this->pageRepository->create($request);
 
@@ -48,6 +58,20 @@ class PagesController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $rule = [
+            'story_id' => 'required|numeric|min:0',
+            'background' => 'required|mimes:jpeg,png|mimetypes:image/jpeg,image/png|max:2024',
+        ];
+        $messenger = [
+            'required' => 'trường :attribute bắt buộc phải nhập',
+            'mimes' => 'trường :attribute phải là file ảnh',
+            'mimetypes' => 'trường :attribute phải là file ảnh',
+            'max' => 'trường :attribute phải là file ảnh bé hơn :max kb',
+            'numeric' => 'trường :attribute phải là số',
+            'min' => 'trường :attribute bắt buộc phải lớn hơn :min '
+        ];
+
+        $request->validate($rule, $messenger);
         $this->pageRepository->update($request, $id);
 
         return 'update page successfully';

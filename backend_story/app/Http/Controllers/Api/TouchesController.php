@@ -28,6 +28,18 @@ class TouchesController extends Controller
      */
     public function store(Request $request)
     {
+        $rule = [
+            'page_id' => 'required|numeric|min:0',
+            'data' => 'required',
+            'text_id' => 'required|numeric|min:0'
+        ];
+        $messenger = [
+            'required' => 'trường :attribute bắt buộc phải nhập',
+            'numeric' => 'trường :attribute phải là số',
+            'min' => 'trường :attribute bắt buộc phải lớn hơn :min '
+        ];
+
+        $request->validate($rule, $messenger);
         $newTouch = $this->touchRepository->create($request);
         if ($newTouch) {
             return 'create new touch successfully';
@@ -41,6 +53,18 @@ class TouchesController extends Controller
      */
     public function update(Request $request, string $id)
     {
+        $rule = [
+            'page_id' => 'required|numeric|min:0',
+            'data' => 'required',
+            'text_id' => 'required|numeric|min:0'
+        ];
+        $messenger = [
+            'required' => 'trường :attribute bắt buộc phải nhập',
+            'numeric' => 'trường :attribute phải là số',
+            'min' => 'trường :attribute bắt buộc phải lớn hơn :min '
+        ];
+
+        $request->validate($rule, $messenger);
         $isSuccess = $this->touchRepository->update($request, $id);
         if ($isSuccess) {
             return 'update touches successfully';

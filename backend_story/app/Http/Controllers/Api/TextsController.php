@@ -27,10 +27,14 @@ class TextsController extends Controller
      */
     public function store(Request $request)
     {
-//        return "text post api";
-        $request->validate([
+        $rule = [
             'text' => 'required'
-        ]);
+        ];
+        $messenger = [
+            'required' => 'trường :attribute bắt buộc phải nhập'
+        ];
+
+        $request->validate($rule, $messenger);
 
         $text = $this->textRepository->create($request);
         if ($text) {
@@ -50,9 +54,14 @@ class TextsController extends Controller
     public function update(Request $request, $id)
     {
 
-        $request->validate([
+        $rule = [
             'text' => 'required'
-        ]);
+        ];
+        $messenger = [
+            'required' => 'trường :attribute bắt buộc phải nhập'
+        ];
+
+        $request->validate($rule, $messenger);
 
         $this->textRepository->update($request, $request->id);
 

@@ -40,13 +40,19 @@ class StoriesController extends Controller
      */
     public function store(Request $request)
     {
-//        dd("this is store");
-//        dd($request);
-        $request->validate([
-           'name' => 'required',
-            // thumbnail validate
+        $rule = [
+            'name' => 'required',
+            'storyThumbnail' => 'required|mimes:jpeg,png|mimetypes:image/jpeg,image/png|max:2024',
             'author' => 'required'
-        ]);
+        ];
+        $messenger = [
+            'required' => 'trường :attribute bắt buộc phải nhập',
+            'mimes' => 'trường :attribute phải là file ảnh',
+            'mimetypes' => 'trường :attribute phải là file ảnh',
+            'max' => 'trường :attribute phải là file ảnh bé hơn :max kb'
+        ];
+
+        $request->validate($rule, $messenger);
 
         $newStory = $this->storyRepository->create($request);
         if($newStory) {
@@ -78,6 +84,19 @@ class StoriesController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $rule = [
+            'name' => 'required',
+            'storyThumbnail' => 'required|mimes:jpeg,png|mimetypes:image/jpeg,image/png|max:2024',
+            'author' => 'required'
+        ];
+        $messenger = [
+            'required' => 'trường :attribute bắt buộc phải nhập',
+            'mimes' => 'trường :attribute phải là file ảnh',
+            'mimetypes' => 'trường :attribute phải là file ảnh',
+            'max' => 'trường :attribute phải là file ảnh bé hơn :max kb'
+        ];
+
+        $request->validate($rule, $messenger);
         $this->storyRepository->update($request, $id);
         return redirect('/stories')->with('status', 'update successfully');
     }
