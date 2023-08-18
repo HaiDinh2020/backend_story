@@ -29,7 +29,7 @@
                                    id="audio"
                                    name="audio" >
                         </div>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary bg-blue-500">Submit</button>
                     </form>
                 </div>
             </div>

@@ -27,13 +27,14 @@ class TextsController extends Controller
      */
     public function store(Request $request)
     {
+//        return "text post api";
         $request->validate([
             'text' => 'required'
         ]);
 
         $text = $this->textRepository->create($request);
         if ($text) {
-            return 'create new text successfully';
+            return $this->textRepository->all();
         } else {
             return 'create new text have error';
         }
