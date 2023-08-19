@@ -42,7 +42,7 @@ class StoriesController extends Controller
     {
         $rule = [
             'name' => 'required',
-            'storyThumbnail' => 'required|mimes:jpeg,png|mimetypes:image/jpeg,image/png|max:2024',
+            'thumbnail' => 'required|mimes:jpeg,png|mimetypes:image/jpeg,image/png|max:2024',
             'author' => 'required'
         ];
         $messenger = [
@@ -86,7 +86,7 @@ class StoriesController extends Controller
     {
         $rule = [
             'name' => 'required',
-            'storyThumbnail' => 'required|mimes:jpeg,png|mimetypes:image/jpeg,image/png|max:2024',
+            'thumbnail' => 'required|mimes:jpeg,png|mimetypes:image/jpeg,image/png|max:2024',
             'author' => 'required'
         ];
         $messenger = [

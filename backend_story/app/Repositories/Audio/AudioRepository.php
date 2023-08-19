@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Audio;
 
+use App\Exceptions\GeneralJsonException;
 use App\Models\Audio;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -9,11 +10,15 @@ use Illuminate\Support\Facades\DB;
 class AudioRepository implements AudioRepositoryInterface
 {
     public function all() {
-        return Audio::all();
+        $auido = Audio::all();
+        throw_if(!$auido, GeneralJsonException::class, 'Failed to get all audio', 442);
+        return $auido;
     }
 
     public function findAudioById($id) {
-        return Audio::find($id);
+        $audio = Audio::find($id);
+        throw_if(!$audio, GeneralJsonException::class, 'Failed to get audio'. 442);
+        return $audio;
     }
 
     public function create(Request $request) {
@@ -24,6 +29,7 @@ class AudioRepository implements AudioRepositoryInterface
             'audio' => $audio,
             'text_id' => $request->text_id
         ]);
+        throw_if(!$newAudio, GeneralJsonException::class, 'Failed to create new audio', 442);
         return $newAudio;
     }
 
@@ -31,11 +37,13 @@ class AudioRepository implements AudioRepositoryInterface
         $audio = $request->file('audio')->getClientOriginalName();
         $path = $request->file('audio')->storeAs('public/audios', $audio);
 
-        DB::table('audio')
+        $audio_update = DB::table('audio')
             ->where('id', $id)
             ->update([
                 'audio' => $audio,
                 'text_id' => $request->text_id
             ]);
+        throw_if(!$audio_update, GeneralJsonException::class, 'Failed to update this audio');
+        return $audio_update;
     }
 }

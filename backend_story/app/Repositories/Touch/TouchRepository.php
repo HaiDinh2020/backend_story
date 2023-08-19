@@ -9,11 +9,15 @@ use Illuminate\Support\Facades\DB;
 class TouchRepository implements TouchRepositoryInterface
 {
     public function all() {
-        return Touch::all();
+        $touches = Touch::all();
+        throw_if(!$touches, GeneralJsonException::class, 'Failed to get all touch', 442);
+        return $touches;
     }
 
     public function findTouchConfigById ($id) {
-        return Touch::find($id);
+        $touch = Touch::find($id);
+        throw_if(!$touch, GeneralJsonException::class, 'Failed to get touch', 442);
+        return $touch;
     }
 
 
@@ -23,7 +27,7 @@ class TouchRepository implements TouchRepositoryInterface
             'data' => $request->data,
             'text_id' => $request->text_id
         ]);
-
+        throw_if(!$newTouch, GeneralJsonException::class, 'Failed to create new touch', 442);
         return $newTouch;
     }
 
@@ -35,6 +39,7 @@ class TouchRepository implements TouchRepositoryInterface
                 'data' => $request->data,
                 'text_id' => $request->text_id
             ]);
+        throw_if(!$touch, GeneralJsonException::class, 'Failed to update this touch', 442);
         return $touch;
     }
 

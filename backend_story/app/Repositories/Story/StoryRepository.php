@@ -2,6 +2,7 @@
 
 namespace App\Repositories\Story;
 
+use App\Exceptions\GeneralJsonException;
 use App\Models\Story;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
@@ -9,41 +10,46 @@ use Illuminate\Support\Facades\DB;
 class StoryRepository implements StoryRepositoryInterface
 {
     public function all() {
-
-        return Story::all();
+        $stories = Story::all();
+        throw_if(!$stories, GeneralJsonException::class, 'Failed to get all stories', 442);
+        return $stories;
     }
 
     public function findStoryById ($id) {
-        return Story::find($id);
+        $story = Story::find($id);
+        throw_if(!$story, GeneralJsonException::class, 'Failed to get story', 442);
+        return $story;
     }
 
     public function create(Request $request)
     {
-        $thumbnail = $request->file('storyThumbnail')->getClientOriginalName();
-        $path = $request->file('storyThumbnail')->storeAs('public/thumbnails', $thumbnail);
+        $thumbnail = $request->file('thumbnail')->getClientOriginalName();
+        $path = $request->file('thumbnail')->storeAs('public/thumbnails', $thumbnail);
 
         $newStory = Story::create([
             'name' => $request->name,
             'thumbnail' => $thumbnail,
             'author' => $request->author
         ]);
+        throw_if(!$newStory, GeneralJsonException::class, 'Failed to create new story',442);
         return $newStory;
     }
 
     public function update(Request $request, $id)
     {
-        $thumbnail = $request->file('storyThumbnail')->getClientOriginalName();
-        $path = $request->file('storyThumbnail')->storeAs('public/thumbnails', $thumbnail);
+        $thumbnail = $request->file('thumbnail')->getClientOriginalName();
+        $path = $request->file('thumbnail')->storeAs('public/thumbnails', $thumbnail);
 
 
-        DB::table('stories')
+        $story_update = DB::table('stories')
             ->where('id', $id)
             ->update([
                 'name' => $request->name,
                 'thumbnail' => $thumbnail,
                 'author' => $request->author
             ]);
-
+        throw_if(!$story_update, GeneralJsonException::class, 'Failed to update story',442);
+        return $story_update;
     }
 
 }

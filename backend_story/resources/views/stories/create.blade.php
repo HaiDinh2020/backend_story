@@ -30,11 +30,11 @@
                                    name="name">
                         </div>
                         <div class=" mb-3">
-                            <label for="storyThumbnail" class="form-label">Thumbnail story</label>
+                            <label for="thumbnail" class="form-label">Thumbnail story</label>
                             <input type="file"
                                    class="form-control"
                                    accept=".png, .jpg, .jpeg"
-                                   name="storyThumbnail" >
+                                   name="thumbnail" >
                         </div>
                         <div class="mb-3">
                             <label for="authorName" class="form-label">Author4 story</label>

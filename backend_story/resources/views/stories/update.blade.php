@@ -32,7 +32,7 @@
                                    value="{{$story->name}}">
                         </div>
                         <div class=" mb-3">
-                            <label for="storyThumbnail" class="form-label">Thumbnail story</label>
+                            <label for="thumbnail" class="form-label">Thumbnail story</label>
                             <img src="{{asset('/storage/thumbnails/'.$story->thumbnail)}}" alt="{{$story->thumbnail}}"
                                  width="100px"
                                  height="100px">
@@ -40,7 +40,7 @@
                             <input type="file"
                                    class="form-control"
                                    accept=".png, .jpg, .jpeg"
-                                   name="storyThumbnail">
+                                   name="thumbnail">
 
                         </div>
                         <div class="mb-3">
