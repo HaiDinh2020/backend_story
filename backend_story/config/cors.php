@@ -15,11 +15,12 @@ return [
     |
     */
 
-    'paths' => ['api/*', 'sanctum/csrf-cookie'],
-
+    'paths' => ['*', 'sanctum/csrf-cookie'],
+//    'paths' => ['*'],
     'allowed_methods' => ['*'],
 
-    'allowed_origins' => ['*'],
+//    'allowed_origins' => ['*'],
+    'allowed_origins' => ['http://localhost:8081', 'https://5098-42-113-128-37.ngrok-free.app/api/stories'],
 
     'allowed_origins_patterns' => [],
 

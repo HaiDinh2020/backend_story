@@ -17,6 +17,18 @@ class Page extends Model
         'story_id',
         'background',
     ];
+    public function hasTouch()
+    {
+        return $this->hasMany('App\Models\Touch', 'page_id', 'id');
+    }
+
+    public function hasText_config () {
+        return $this->hasMany('App\Models\Text_config', 'page_id', 'id');
+    }
+
+    public function belongStory() {
+        return $this->belongsTo('App\Models\Story', 'story_id', 'id');
+    }
 
     public function getActivitylogOptions(): LogOptions
     {

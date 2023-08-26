@@ -17,6 +17,15 @@ class Touch extends Model
         'data',
         'text_id'
     ];
+
+    public function belongPage() {
+        return $this->belongsTo('App\Models\Page', 'page_id', 'id');
+    }
+
+    public function belongText() {
+        return $this->belongsTo('App\Models\Text', 'text_id', 'id');
+    }
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()

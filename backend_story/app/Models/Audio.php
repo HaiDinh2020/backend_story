@@ -16,6 +16,12 @@ class Audio extends Model
         'audio',
         'text_id'
     ];
+
+    public function belongText()
+    {
+        return $this->belongsTo('App\Models\Text', 'text_id', 'id');
+    }
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()

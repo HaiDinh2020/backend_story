@@ -27,8 +27,11 @@ Route::middleware('auth:sanctum')->get('/user', function () {
 
 Route::post('login', [UsersController::class, 'index']);
 
+// bearer token : WNrSblksezNAhyFrCjOcG2CwAyjU4cxzxPFcVHpj
 Route::group(['middleware' => 'auth:sanctum'], function () {
 
+    // get all data
+    Route::get('allData', [StoriesController::class, 'getAllData']);
     // crud api for Text
     Route::get('texts', [TextsController::class, 'index']);
     Route::post('texts', [TextsController::class, 'store']);

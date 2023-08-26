@@ -19,6 +19,11 @@ class Story extends Model
         'author',
     ];
 
+    public function hasPage()
+    {
+        return $this->hasMany('App\Models\Page', 'story_id', 'id');
+    }
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()

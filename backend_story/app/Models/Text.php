@@ -15,6 +15,20 @@ class Text extends Model
     protected $fillable = [
         'text',
     ];
+
+    public function hasAudio() {
+        return $this->hasOne('App\Models\Audio', 'text_id', 'id');
+    }
+
+    public function hasText_config() {
+        return $this->hasMany('App\Models\Text_config', 'text_id', 'id');
+    }
+
+    public function hasTouch()
+    {
+        return $this->hasOne('App\Models\Touch', 'text_id', 'id');
+    }
+
     public function getActivitylogOptions(): LogOptions
     {
         return LogOptions::defaults()

@@ -52,4 +52,9 @@ class StoryRepository implements StoryRepositoryInterface
         return $story_update;
     }
 
+    public function getAllDataOFStoryId() {
+        $allData = Story::with(['hasPage', 'hasPage.hasTouch', 'hasPage.hasTouch.belongText', 'hasPage.hasTouch.belongText.hasAudio', 'hasPage.hasText_config','hasPage.hasText_config.belongText','hasPage.hasText_config.belongText.hasAudio'])->get();
+        return $allData;
+    }
+
 }

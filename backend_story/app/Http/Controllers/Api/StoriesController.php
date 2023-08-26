@@ -82,4 +82,9 @@ class StoriesController extends Controller
         $story->delete();
         return 'delete story successfully';
     }
+
+    public function getAllData() {
+        $allData = $this->storyRepository->getAllDataOFStoryId();
+        return $allData;
+    }
 }
